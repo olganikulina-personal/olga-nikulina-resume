@@ -1,80 +1,48 @@
 // File: src/App.tsx
 import ContactForm from "./components/ContactForm";
 import { Helmet } from "react-helmet";
+import resumeData from "./data/resume.json";
 
 function App() {
-  const skills = [
-    "React (Hooks, Context API)",
-    "TypeScript",
-    "JavaScript (ES6+)",
-    "NestJS",
-    "Node.js",
-    "REST API development",
-    "PostgreSQL",
-    "MongoDB",
-    "Google Cloud",
-    "Go",
-    "Java",
-    "Git",
-    "Agile",
-    "Scrum",
-    "Docker",
-  ];
-
-  const skillColors = [
-    "#a9e1f7",
-    "#3dc1e9",
-    "#df185d",
-    "#ac051d",
-    "#fe596c",
-    "#fed3dd",
-    "#fec0cc",
-    "#132fb6",
-    "#0a178d",
-    "#fe7f3e",
-    "#fed673",
-    "#b9bfd3",
-    "#449dca",
-    "#f9ecee",
-    "#096e59",
-    "#31a37f",
-    "#42b883",
-    "#3dc0ad",
-    "#063926",
-    "#c4e663",
-    "#9bcd8d",
-  ];
+  const {
+    personalInfo,
+    skills,
+    skillColors,
+    experience,
+    education,
+    outsideWork,
+  } = resumeData;
 
   return (
     <div className="min-h-screen p-4" style={{ backgroundColor: "#f9ecee" }}>
       <Helmet>
-        <title>Olga Nikulina - Full-Stack Developer</title>
+        <title>{personalInfo.name} - Full-Stack Developer</title>
         <meta
           name="description"
-          content="Olga Nikulina's personal portfolio and resume. Full-Stack Developer with expertise in React, Node.js, and more."
+          content={`${personalInfo.name}'s personal portfolio and resume. Full-Stack Developer with expertise in React, Node.js, and more.`}
         />
         <meta
           name="keywords"
-          content="Olga Nikulina, full-stack developer, React, Node.js, software engineer, resume"
+          content={`${personalInfo.name}, full-stack developer, React, Node.js, software engineer, resume`}
         />
         <meta
           property="og:title"
-          content="Olga Nikulina - Full-Stack Developer"
+          content={`${personalInfo.name} - Full-Stack Developer`}
         />
         <meta
           property="og:description"
-          content="Olga Nikulina's personal portfolio and resume. Full-Stack Developer with expertise in React, Node.js, and more."
+          content={`${personalInfo.name}'s personal portfolio and resume. Full-Stack Developer with expertise in React, Node.js, and more.`}
         />
         <meta property="og:image" content="/profile.jpg" />
-        <meta property="og:url" content="https://yourwebsite.com" />
+        <meta property="og:url" content="https://www.olganikulina.dev/" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:title"
-          content="Olga Nikulina - Full-Stack Developer"
+          content={`${personalInfo.name} - Full-Stack Developer`}
         />
         <meta
           name="twitter:description"
-          content="Olga Nikulina's personal portfolio and resume. Full-Stack Developer with expertise in React, Node.js, and more."
+          content={`${personalInfo.name}'s personal portfolio and resume. Full-Stack Developer with expertise in React, Node.js, and more.`}
         />
         <meta name="twitter:image" content="/profile.jpg" />
       </Helmet>
@@ -85,50 +53,33 @@ function App() {
         <div className="flex items-center mb-6 space-x-4">
           <img
             src="/profile.jpg"
-            alt="Olga Nikulina"
+            alt={personalInfo.name}
             className="w-32 h-32 rounded-lg object-cover shadow-md border-4 border-[#3dc1e9]"
           />
           <div>
-            <h1 className="text-3xl font-bold text-[#132fb6]">Olga Nikulina</h1>
+            <h1 className="text-3xl font-bold text-[#132fb6]">
+              {personalInfo.name}
+            </h1>
             <p className="text-[#096e59]">
-              Team Lead & Senior Product Software Developer ·{" "}
-              <span className="text-[#31a37f]">Los Angeles, CA</span>
+              {personalInfo.title} ·{" "}
+              <span className="text-[#31a37f]">{personalInfo.location}</span>
             </p>
           </div>
         </div>
 
         <section className="mb-6">
           <h2 className="text-xl font-semibold text-[#0a178d]">About Me</h2>
-          <p className="text-[#063926]">
-            Hello and welcome, I'm Olga. I learned software development over
-            several years, while working as a QA, by reading the code and
-            tracking down where bugs occurred. I've moved from QA, to software
-            development, to leading a team of developers. I pride myself on
-            being organized, detail-oriented, and thoroughly researched. Before
-            jumping into a project I like to ask tons of questions to better
-            understand scope, estimates, and potential gaps. As lead, I split my
-            time between administrative tasks while also prioritizing keeping my
-            hands on the keyboard, to ensure I remain knowledgeable of the code
-            so as to best support my team.
-          </p>
+          <p className="text-[#063926]">{personalInfo.about}</p>
         </section>
 
         <section className="mb-6">
           <h2 className="text-xl font-semibold text-[#0a178d]">Work</h2>
           <ul className="list-disc list-inside text-[#063926]">
-            <li>
-              <strong>NuORDER by Lightspeed</strong> – Team Lead, Senior
-              Developer (Oct 2022–Present)
-            </li>
-            <li>
-              <strong>NuORDER</strong> – Software Engineer (Dec 2017–Oct 2022)
-            </li>
-            <li>
-              <strong>NuORDER</strong> – Lead Automation QA (Mar 2015–Dec 2017)
-            </li>
-            <li>
-              <strong>Eccentex</strong> – QA Engineer (Sep 2012–Mar 2015)
-            </li>
+            {experience.map((job, index) => (
+              <li key={index}>
+                <strong>{job.company}</strong> – {job.role} ({job.period})
+              </li>
+            ))}
           </ul>
         </section>
 
@@ -152,18 +103,12 @@ function App() {
         <section className="mb-6">
           <h2 className="text-xl font-semibold text-[#0a178d]">Education</h2>
           <ul className="list-disc list-inside text-[#063926]">
-            <li>
-              <strong>Georgia Institute of Technology</strong> – Master of
-              Science in Computer Science (Fall 2025 – )
-            </li>
-            <li>
-              <strong>Santa Monica College</strong> – Associate of Science in
-              Computer Programming, Graduated with Honors (Aug 2010 – Jun 2012)
-            </li>
-            <li>
-              <strong>University of California, Los Angeles</strong> – Bachelor
-              of Arts in History (Sep 2006 – Jun 2010)
-            </li>
+            {education.map((edu, index) => (
+              <li key={index}>
+                <strong>{edu.school}</strong> – {edu.degree}
+                {edu.details && `, ${edu.details}`} ({edu.period})
+              </li>
+            ))}
           </ul>
         </section>
 
@@ -171,10 +116,7 @@ function App() {
           <h2 className="text-xl font-semibold text-[#0a178d]">
             Outside of Work
           </h2>
-          <p className="text-[#063926]">
-            Outside of work, I enjoy cooking, gardening, reading history
-            nonfiction books, and spending time with my family.
-          </p>
+          <p className="text-[#063926]">{outsideWork}</p>
         </section>
 
         <section className="mb-10">

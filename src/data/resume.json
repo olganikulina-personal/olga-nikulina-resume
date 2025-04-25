@@ -1,0 +1,91 @@
+{
+  "personalInfo": {
+    "name": "Olga Nikulina",
+    "title": "Team Lead & Senior Product Software Developer",
+    "location": "Los Angeles, CA",
+    "about": "Hello and welcome, I'm Olga. I learned software development over several years, while working as a QA, by reading the code and tracking down where bugs occurred. I've moved from QA, to software development, to leading a team of developers. I pride myself on being organized, detail-oriented, and thoroughly researched. Before jumping into a project I like to ask tons of questions to better understand scope, estimates, and potential gaps. As lead, I split my time between administrative tasks while also prioritizing keeping my hands on the keyboard, to ensure I remain knowledgeable of the code so as to best support my team."
+  },
+  "skills": [
+    "React (Hooks, Context API)",
+    "TypeScript",
+    "JavaScript (ES6+)",
+    "NestJS",
+    "Node.js",
+    "REST API development",
+    "PostgreSQL",
+    "MongoDB",
+    "Google Cloud",
+    "Go",
+    "Java",
+    "Git",
+    "Agile",
+    "Scrum",
+    "Docker",
+    "eCommerce",
+    "B2B"
+  ],
+  "skillColors": [
+    "#a9e1f7",
+    "#3dc1e9",
+    "#df185d",
+    "#ac051d",
+    "#fe596c",
+    "#fed3dd",
+    "#fec0cc",
+    "#132fb6",
+    "#0a178d",
+    "#fe7f3e",
+    "#fed673",
+    "#b9bfd3",
+    "#449dca",
+    "#f9ecee",
+    "#096e59",
+    "#31a37f",
+    "#42b883",
+    "#3dc0ad",
+    "#063926",
+    "#c4e663",
+    "#9bcd8d"
+  ],
+  "experience": [
+    {
+      "company": "NuORDER by Lightspeed",
+      "role": "Team Lead, Senior Developer",
+      "period": "Oct 2022–Present"
+    },
+    {
+      "company": "NuORDER",
+      "role": "Software Engineer",
+      "period": "Dec 2017–Oct 2022"
+    },
+    {
+      "company": "NuORDER",
+      "role": "Lead Automation QA",
+      "period": "Mar 2015–Dec 2017"
+    },
+    {
+      "company": "Eccentex",
+      "role": "QA Engineer",
+      "period": "Sep 2012–Mar 2015"
+    }
+  ],
+  "education": [
+    {
+      "school": "Georgia Institute of Technology",
+      "degree": "Master of Science in Computer Science",
+      "period": "Fall 2025 – "
+    },
+    {
+      "school": "Santa Monica College",
+      "degree": "Associate of Science in Computer Programming",
+      "details": "Graduated with Honors",
+      "period": "Aug 2010 – Jun 2012"
+    },
+    {
+      "school": "University of California, Los Angeles",
+      "degree": "Bachelor of Arts in History",
+      "period": "Sep 2006 – Jun 2010"
+    }
+  ],
+  "outsideWork": "I enjoy cooking, gardening, reading historical non-fiction, watching the occasional reality TV show,and spending time with my family."
+}
