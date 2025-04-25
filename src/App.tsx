@@ -172,8 +172,8 @@ function App() {
             Outside of Work
           </h2>
           <p className="text-[#063926]">
-            Outside of work, I enjoy cooking, gardening, reading historical
-            fiction, and spending time with my family.
+            Outside of work, I enjoy cooking, gardening, reading history
+            nonfiction books, and spending time with my family.
           </p>
         </section>
 
