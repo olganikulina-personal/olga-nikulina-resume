@@ -4,34 +4,28 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "lint": "astro check"
   },
   "dependencies": {
+    "@astrojs/react": "^4.2.4",
     "@hookform/resolvers": "^5.0.1",
     "@tailwindcss/vite": "^4.1.4",
+    "astro": "^5.7.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-helmet": "^6.1.0",
     "react-hook-form": "^7.56.1",
     "react-toastify": "^11.0.5",
     "tailwindcss": "^4.1.4",
     "zod": "^3.24.3"
   },
   "devDependencies": {
-    "@eslint/js": "^9.22.0",
+    "@astrojs/check": "^0.9.4",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
-    "@types/react-helmet": "^6.1.11",
-    "@vitejs/plugin-react": "^4.3.4",
-    "eslint": "^9.22.0",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.19",
-    "globals": "^16.0.0",
-    "typescript": "~5.7.2",
-    "typescript-eslint": "^8.26.1",
-    "vite": "^6.3.1"
+    "typescript": "~5.7.2"
   }
 }
