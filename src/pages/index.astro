@@ -1,36 +1,48 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import Card from "../components/Card.astro";
+import { cards } from "../lib/cards";
 ---
 
-<BaseLayout title="olga nikulina" description="a small notebook by olga nikulina">
-  <main class="p-12 max-w-3xl">
-    <!-- Type sample — verifies all three families load -->
-    <p class="font-sans" style="font-size: var(--text-display); font-weight: 500;">
-      hello, notebook
-    </p>
-    <p class="font-sans" style="font-size: var(--text-base); color: var(--ink-soft);">
-      IBM Plex Sans, weight 500 above; this paragraph is weight 400 in
-      <code class="font-mono" style="font-size: var(--text-sm);">--ink-soft</code>.
-    </p>
-
-    <p class="font-mono mt-6" style="font-size: var(--text-xs); color: var(--ink-faint);">
-      r-001 &nbsp;&middot;&nbsp; IBM Plex Mono &middot; ink-faint &middot; text-xs
-    </p>
-
-    <p class="font-serif mt-6" style="font-size: var(--text-lg); line-height: 1.65; max-width: 62ch;">
-      Source Serif 4 at text-lg, line-height 1.65 — this is what essay routes
-      will use for the body. The point of running it here is to prove the
-      family loads from disk, not to make a layout decision.
-    </p>
-
-    <!-- Color token swatches -->
-    <div class="mt-10 grid grid-cols-3 gap-3 font-mono" style="font-size: var(--text-xs);">
-      <span style="color: var(--ink);">--ink &middot; #222018</span>
-      <span style="color: var(--ink-soft);">--ink-soft &middot; #5b574c</span>
-      <span style="color: var(--ink-faint);">--ink-faint &middot; #9a9588</span>
-      <span style="color: var(--marker);">--marker &middot; #1f6470</span>
-      <span style="color: var(--marker-soft);">--marker-soft &middot; #2b8593</span>
-      <span style="color: var(--emphasis);">--emphasis &middot; #b3431f</span>
-    </div>
-  </main>
+<BaseLayout
+  title="olga nikulina"
+  description="a small notebook by olga nikulina — engineer, lead, reader."
+  gridOpacity={1}
+>
+  <div class="page">
+    <SiteHeader />
+    <main class="grid">
+      {cards.map((card) => <Card {...card} />)}
+    </main>
+  </div>
 </BaseLayout>
+
+<style>
+  .page {
+    /* Outer rhythm snaps to the 24px graph-paper step */
+    padding: calc(var(--grid-step) * 2) calc(var(--grid-step) * 2);
+    max-width: 1440px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--grid-step) * 2);
+  }
+
+  .grid {
+    display: grid;
+    /* Mobile-first: single column, full-width cards */
+    grid-template-columns: 1fr;
+    gap: var(--grid-step);
+  }
+
+  /* Desktop: 12-col asymmetric grid snapping to the 24px rhythm */
+  @media (min-width: 768px) {
+    .grid {
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: calc(var(--grid-step) * 3);
+      gap: var(--grid-step);
+    }
+  }
+</style>
