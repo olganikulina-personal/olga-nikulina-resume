@@ -1,10 +1,19 @@
 ---
+import "../styles/global.css";
+import GraphPaper from "../components/GraphPaper.astro";
+
 interface Props {
   title?: string;
   description?: string;
+  /** Opacity of the graph-paper underlay. 1 = home grid, 0.5 = route pages, 0 = essays. */
+  gridOpacity?: number;
 }
 
-const { title = "olga nikulina", description = "a small notebook" } = Astro.props;
+const {
+  title = "olga nikulina",
+  description = "a small notebook",
+  gridOpacity = 1,
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -16,6 +25,7 @@ const { title = "olga nikulina", description = "a small notebook" } = Astro.prop
     <title>{title}</title>
   </head>
   <body>
+    <GraphPaper opacity={gridOpacity} />
     <slot />
   </body>
 </html>

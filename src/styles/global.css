@@ -1,0 +1,85 @@
+/* ============================================================
+   Fonts — self-hosted via Fontsource
+   IBM Plex Sans Variable (wght) for sans
+   IBM Plex Mono 400/500 latin
+   Source Serif 4 400/500 latin (essay routes only)
+   ============================================================ */
+@import "@fontsource-variable/ibm-plex-sans/wght.css";
+@import "@fontsource/ibm-plex-mono/latin-400.css";
+@import "@fontsource/ibm-plex-mono/latin-500.css";
+@import "@fontsource/source-serif-4/latin-400.css";
+@import "@fontsource/source-serif-4/latin-500.css";
+
+@import "tailwindcss";
+
+/* ============================================================
+   Design tokens — Direction 3 (The Notebook)
+   Defined as plain CSS variables, then mapped into Tailwind v4
+   via @theme so utilities like bg-paper, text-ink, font-sans work.
+   ============================================================ */
+:root {
+  /* Color */
+  --paper:       #fafaf7;
+  --paper-soft:  #f4f3ed;
+  --grid-line:   #e8e7e0;
+  --ink:         #222018;
+  --ink-soft:    #5b574c;
+  --ink-faint:   #9a9588;
+  --marker:      #1f6470;
+  --marker-soft: #2b8593;
+  --emphasis:    #b3431f;
+
+  /* Type scale (rem, root = 16px) */
+  --text-xs:      0.75rem;
+  --text-sm:      0.875rem;
+  --text-base:    1rem;
+  --text-lg:      1.125rem;
+  --text-xl:      1.375rem;
+  --text-2xl:     1.75rem;
+  --text-display: 2.5rem;
+
+  /* Rhythm */
+  --grid-step: 24px;
+}
+
+@theme {
+  /* Font families — wired through Tailwind's font-* utilities */
+  --font-sans:  "IBM Plex Sans Variable", "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono:  "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-serif: "Source Serif 4", "Source Serif Pro", Georgia, serif;
+
+  /* Re-expose tokens as Tailwind colors so bg-paper / text-ink work */
+  --color-paper:       #fafaf7;
+  --color-paper-soft:  #f4f3ed;
+  --color-grid-line:   #e8e7e0;
+  --color-ink:         #222018;
+  --color-ink-soft:    #5b574c;
+  --color-ink-faint:   #9a9588;
+  --color-marker:      #1f6470;
+  --color-marker-soft: #2b8593;
+  --color-emphasis:    #b3431f;
+}
+
+/* ============================================================
+   Base
+   Plex Sans body, weights 400 + 500 only (no 700+ — the notebook
+   metaphor doesn't shout). Off-white paper background, ink text.
+   ============================================================ */
+html {
+  background: var(--paper);
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: 400;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Strong should not jump to 700 — keep within the 400/500 ladder */
+strong, b { font-weight: 500; }
