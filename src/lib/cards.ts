@@ -50,7 +50,7 @@ export const cards: Card[] = [
     href: "/thoughts/faster-horse",
     title: "a faster horse",
     callNumber: "t-01",
-    gridClass: "md:col-span-4 md:col-start-5 md:row-start-3",
+    gridClass: "md:col-span-4 md:row-span-2 md:col-start-5 md:row-start-3",
     isEssay: true,
   },
   {
@@ -58,7 +58,7 @@ export const cards: Card[] = [
     href: "/thoughts/novelty-tax",
     title: "the novelty tax",
     callNumber: "t-02",
-    gridClass: "md:col-span-4 md:col-start-9 md:row-start-3",
+    gridClass: "md:col-span-4 md:row-span-2 md:col-start-9 md:row-start-3",
     isEssay: true,
   },
   {
@@ -67,7 +67,7 @@ export const cards: Card[] = [
     title: "orders without a crime",
     callNumber: "t-03",
     subtitle: "the longest one — start here if you start somewhere",
-    gridClass: "md:col-span-8 md:col-start-5 md:row-start-4",
+    gridClass: "md:col-span-12 md:row-span-2 md:col-start-1 md:row-start-5",
     isEssay: true,
   },
   {
@@ -76,7 +76,7 @@ export const cards: Card[] = [
     title: "the dallas incident",
     callNumber: "t-04",
     subtitle: "a low-stakes bug, a high-stakes UAT, one bruce willis",
-    gridClass: "md:col-span-8 md:col-start-1 md:row-start-5",
+    gridClass: "md:col-span-8 md:row-span-2 md:col-start-1 md:row-start-7",
     isEssay: true,
   },
   {
@@ -84,6 +84,6 @@ export const cards: Card[] = [
     href: "/contact",
     title: "say hello",
     callNumber: "c-01",
-    gridClass: "md:col-span-4 md:col-start-9 md:row-start-5",
+    gridClass: "md:col-span-4 md:row-span-2 md:col-start-9 md:row-start-7",
   },
 ];

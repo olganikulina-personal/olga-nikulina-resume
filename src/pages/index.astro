@@ -37,7 +37,13 @@ import { cards } from "../lib/cards";
     gap: var(--grid-step);
   }
 
-  /* Desktop: 12-col asymmetric grid snapping to the 24px rhythm */
+  /* Desktop: 12-col asymmetric grid snapping to the 24px rhythm.
+   *
+   * grid-auto-rows is 72px (3 grid-steps); a card's min-height is 144px
+   * (6 grid-steps), so every card MUST span at least 2 rows or it will
+   * visually overflow into the next row. cards.ts enforces this with
+   * md:row-span-2 on every card. If you add a new card here, do the same.
+   */
   @media (min-width: 768px) {
     .grid {
       grid-template-columns: repeat(12, 1fr);
