@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">
+  <!-- Background: notebook paper -->
+  <rect width="24" height="24" fill="#fafaf7"/>
+  <!-- Graph-paper square frame -->
+  <rect x="2.5" y="2.5" width="19" height="19" fill="none" stroke="#222018" stroke-width="1"/>
+  <!-- Internal grid lines suggesting paper -->
+  <line x1="12" y1="2.5" x2="12" y2="21.5" stroke="#222018" stroke-width="0.5" opacity="0.5"/>
+  <line x1="2.5" y1="12" x2="21.5" y2="12" stroke="#222018" stroke-width="0.5" opacity="0.5"/>
+  <!-- Ink mark -->
+  <circle cx="16.5" cy="7.5" r="1.25" fill="#222018"/>
+</svg>

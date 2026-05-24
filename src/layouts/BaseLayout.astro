@@ -11,10 +11,14 @@ interface Props {
 }
 
 const {
-  title = "olga nikulina",
-  description = "a small notebook",
+  title = "olga nikulina — a small notebook",
+  description = "a small notebook by olga nikulina. work, thoughts, currently.",
   gridOpacity = 1,
 } = Astro.props;
+
+// Canonical URL for the current page. Astro.site is set in astro.config.mjs;
+// Astro.url.pathname gives the request path. Together: the absolute URL.
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
 ---
 
 <!doctype html>
@@ -22,8 +26,30 @@ const {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <!-- Favicon: single inline-SVG mark, matches the SiteHeader graph-paper square. -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Open Graph — minimal site-wide metadata. Per-route OG images deferred to post-launch. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="olga nikulina" />
+
+    <!-- Twitter card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <!-- Theme color for browser chrome on mobile; matches the paper background. -->
+    <meta name="theme-color" content="#fafaf7" />
+
     <ClientRouter />
   </head>
   <body>
