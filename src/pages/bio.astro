@@ -9,16 +9,59 @@ const card = cards.find((c) => c.slug === "bio")!;
   slug={card.slug}
   callNumber={card.callNumber}
   title={card.title}
-  description="who I am, in brief."
+  description="who I am, briefly."
 >
-  <p class="stub">
-    bio content lands in U5.
-  </p>
+  <div class="bio">
+    <p>
+      I'm a team lead and senior full-stack engineer, ten-plus years deep,
+      with a path that started in QA, moved through product engineering,
+      and now sits somewhere in the middle of leadership and code. I still
+      write a lot of it.
+    </p>
+
+    <p>
+      I lead a small remote team building a SaaS eCommerce platform — React,
+      TypeScript, Go, Node, a little Java, BigQuery, Mongo, Postgres. The
+      stack rotates; the job mostly doesn't. The job is taking a vague,
+      slightly-wrong request from a real human and turning it into something
+      shippable that actually solves the problem they meant, not the one
+      they typed.
+    </p>
+
+    <p>
+      I like ambiguous problems, small teams, and the unglamorous half of
+      software: the parts where you read a ticket five times, sketch on
+      paper, and realize the original ask was a faster horse.
+    </p>
+
+    <p>
+      Based in Los Angeles. <a href="/resume">the working record</a> has the
+      facts and dates; <a href="/thoughts/faster-horse">the thoughts</a> have
+      the opinions.
+    </p>
+  </div>
 </RouteLayout>
 
 <style>
-  .stub {
-    color: var(--ink-soft);
+  .bio {
+    max-width: 64ch;
     font-size: var(--text-base);
+    line-height: 1.65;
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--grid-step) * 0.75);
+  }
+  .bio p {
+    margin: 0;
+  }
+  .bio a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+  .bio a:hover {
+    color: var(--marker);
   }
 </style>

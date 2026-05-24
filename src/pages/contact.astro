@@ -1,5 +1,6 @@
 ---
 import RouteLayout from "../layouts/RouteLayout.astro";
+import ContactForm from "../components/ContactForm";
 import { cards } from "../lib/cards";
 
 const card = cards.find((c) => c.slug === "contact")!;
@@ -11,9 +12,20 @@ const card = cards.find((c) => c.slug === "contact")!;
   title={card.title}
   description="say hello."
 >
-  <p class="stub">contact form lands in U5.</p>
+  <p class="lede">
+    short notes, long emails, random questions — all welcome. I read everything
+    that's not spam.
+  </p>
+
+  <ContactForm client:load />
 </RouteLayout>
 
 <style>
-  .stub { color: var(--ink-soft); font-size: var(--text-base); }
+  .lede {
+    max-width: 56ch;
+    color: var(--ink-soft);
+    font-size: var(--text-base);
+    line-height: 1.6;
+    margin: 0 0 calc(var(--grid-step) * 1) 0;
+  }
 </style>

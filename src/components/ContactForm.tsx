@@ -1,27 +1,27 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import "./ContactForm.css";
 
 const schema = z.object({
-  email: z.string().email({ message: "Invalid email address" }),
+  email: z.string().email({ message: "that doesn't look like an email" }),
   message: z
     .string()
-    .min(10, { message: "Message must be at least 10 characters" }),
+    .min(10, { message: "a few more words, please — at least 10 characters" }),
 });
 
 type FormData = z.infer<typeof schema>;
+type Status = { kind: "idle" } | { kind: "ok" } | { kind: "err"; text: string };
 
 export default function ContactForm() {
+  const [status, setStatus] = useState<Status>({ kind: "idle" });
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<FormData>({
-    resolver: zodResolver(schema),
-  });
+  } = useForm<FormData>({ resolver: zodResolver(schema) });
 
   const onSubmit = async (data: FormData) => {
     try {
@@ -32,56 +32,59 @@ export default function ContactForm() {
       });
 
       if (response.ok) {
-        toast.success("Message sent successfully!");
+        setStatus({ kind: "ok" });
         reset();
       } else {
-        toast.error("Failed to send message. Try again.");
+        setStatus({ kind: "err", text: "the form didn't go through. try again?" });
       }
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {
-      toast.error("Something went wrong.");
+    } catch {
+      setStatus({ kind: "err", text: "something broke on the network." });
     }
   };
 
   return (
-    <div className="mb-6 mt-12">
-      <h2 className="text-2xl font-semibold mb-4 text-blue-700">Say Hello</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div>
-          <input
-            type="email"
-            placeholder="Your email"
-            {...register("email")}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          {errors.email && (
-            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
-          )}
-        </div>
+    <form onSubmit={handleSubmit(onSubmit)} className="contact-form" noValidate>
+      <div className="field">
+        <label htmlFor="email" className="label">your email</label>
+        <input
+          id="email"
+          type="email"
+          autoComplete="email"
+          {...register("email")}
+          className="input"
+          aria-invalid={errors.email ? "true" : "false"}
+        />
+        {errors.email && <p className="error" role="alert">{errors.email.message}</p>}
+      </div>
 
-        <div>
-          <textarea
-            rows={4}
-            placeholder="Your message"
-            {...register("message")}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          {errors.message && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.message.message}
-            </p>
-          )}
-        </div>
+      <div className="field">
+        <label htmlFor="message" className="label">what's on your mind</label>
+        <textarea
+          id="message"
+          rows={6}
+          {...register("message")}
+          className="input textarea"
+          aria-invalid={errors.message ? "true" : "false"}
+        />
+        {errors.message && <p className="error" role="alert">{errors.message.message}</p>}
+      </div>
 
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors duration-200"
-        >
-          {isSubmitting ? "Sending..." : "Send Message"}
+      <div className="actions">
+        <button type="submit" disabled={isSubmitting} className="submit">
+          {isSubmitting ? "sending…" : "send"}
         </button>
-      </form>
-      <ToastContainer position="bottom-right" />
-    </div>
+        {/*
+         * Inline status replaces the old react-toastify pop-up. It lives in
+         * the form's own flow so screen readers announce it via role=status,
+         * and the UI doesn't shift in to a corner.
+         */}
+        {status.kind === "ok" && (
+          <p className="status status-ok" role="status">sent. talk soon.</p>
+        )}
+        {status.kind === "err" && (
+          <p className="status status-err" role="status">{status.text}</p>
+        )}
+      </div>
+    </form>
   );
 }

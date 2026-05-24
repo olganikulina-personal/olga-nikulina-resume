@@ -1,8 +1,16 @@
 ---
 import RouteLayout from "../layouts/RouteLayout.astro";
 import { cards } from "../lib/cards";
+import { getNowSnapshot } from "../lib/now";
 
 const card = cards.find((c) => c.slug === "now")!;
+const snapshot = await getNowSnapshot();
+
+const lastUpdated = new Date(snapshot.generatedAt).toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
 ---
 
 <RouteLayout
@@ -11,9 +19,102 @@ const card = cards.find((c) => c.slug === "now")!;
   title={card.title}
   description="what's live, right now."
 >
-  <p class="stub">now content lands in U5.</p>
+  <ul class="entries">
+    <li class="entry">
+      <span class="key font-mono">where</span>
+      <span class="val">
+        <span class="pulse" aria-hidden="true"></span>
+        {snapshot.weatherLine}
+      </span>
+    </li>
+    <li class="entry">
+      <span class="key font-mono">building</span>
+      <span class="val">this notebook, and a few things at work I can't talk about yet.</span>
+    </li>
+    <li class="entry">
+      <span class="key font-mono">reading</span>
+      <span class="val">[tk]</span>
+    </li>
+    <li class="entry">
+      <span class="key font-mono">thinking about</span>
+      <span class="val">how teams decide what to ship, and how much of that decision is just appetite.</span>
+    </li>
+  </ul>
+
+  <p class="updated font-mono">last updated {lastUpdated}</p>
 </RouteLayout>
 
 <style>
-  .stub { color: var(--ink-soft); font-size: var(--text-base); }
+  .entries {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--grid-step) * 0.75);
+    max-width: 64ch;
+  }
+
+  .entry {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    gap: calc(var(--grid-step) * 0.75);
+    align-items: baseline;
+  }
+
+  .key {
+    font-size: var(--text-xs);
+    color: var(--ink-faint);
+    letter-spacing: 0.04em;
+    text-transform: lowercase;
+  }
+
+  .val {
+    font-size: var(--text-base);
+    color: var(--ink);
+    line-height: 1.55;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  /*
+   * Pulse dot \u2014 only motion on the page. Per spec, the marker accent color
+   * is reserved for live/current things. This one is keyed to 'where' since
+   * the weather updates on every rebuild. CSS-only, 2s loop, reduced-motion safe.
+   */
+  .pulse {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--marker);
+    animation: pulse 2s ease-in-out infinite;
+    flex-shrink: 0;
+    transform: translateY(-1px);
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pulse { animation: none; }
+  }
+
+  .updated {
+    margin-top: calc(var(--grid-step) * 1.5);
+    font-size: var(--text-xs);
+    color: var(--ink-faint);
+    letter-spacing: 0.04em;
+  }
+
+  @media (max-width: 640px) {
+    .entry {
+      grid-template-columns: 1fr;
+      gap: 0.125rem;
+    }
+  }
 </style>
