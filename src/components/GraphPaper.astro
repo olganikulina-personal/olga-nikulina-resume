@@ -1,0 +1,33 @@
+---
+/*
+ * GraphPaper — the faint 24px grid underlay that runs *through* the page.
+ *
+ * Implemented as a fixed-position element behind everything (z-index: -1).
+ * Cards on top get --paper-soft fill at ~70% opacity so the grid shows
+ * through them — that's what kills the "dashboard" read.
+ *
+ * Props:
+ *   opacity — 1 (default) for the home grid, 0.5 for route pages,
+ *             0 to suppress entirely (essay reading routes).
+ */
+interface Props {
+  opacity?: number;
+}
+const { opacity = 1 } = Astro.props;
+---
+
+<div class="graph-paper" aria-hidden="true" style={`opacity: ${opacity}`}></div>
+
+<style>
+  .graph-paper {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-color: var(--paper);
+    background-image:
+      linear-gradient(to right,  var(--grid-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+    background-size: var(--grid-step) var(--grid-step);
+  }
+</style>

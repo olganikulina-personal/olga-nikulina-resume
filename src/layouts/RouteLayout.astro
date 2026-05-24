@@ -1,0 +1,106 @@
+---
+/*
+ * RouteLayout — wraps non-essay routes (bio, resume, contact, now).
+ *
+ * Hosts:
+ *   - the back link top-left (← back to grid)
+ *   - the route's call-number + title block, which carries the matching
+ *     view-transition-name so the browser morphs the card into this header
+ *     during navigation from /. (No JS — single CSS property declaration.)
+ *
+ * Essay routes use EssayLayout (built in U7) instead, which sets a different
+ * typesetting envelope (Source Serif body, narrower measure, no graph paper).
+ */
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  /** Card slug — must match the home grid's slug for the morph to work. */
+  slug: string;
+  /** Visible call-number, e.g. 'b-01'. */
+  callNumber: string;
+  /** Route title. Rendered as H1 with sans medium. */
+  title: string;
+  /** Page <title> override; falls back to `${title} — olga nikulina`. */
+  pageTitle?: string;
+  /** <meta name="description"> for SEO. */
+  description?: string;
+  /** Graph paper underlay opacity. Defaults to 0.5 for route pages. */
+  gridOpacity?: number;
+}
+
+const {
+  slug,
+  callNumber,
+  title,
+  pageTitle,
+  description,
+  gridOpacity = 0.5,
+} = Astro.props;
+
+const resolvedPageTitle = pageTitle ?? `${title} — olga nikulina`;
+---
+
+<BaseLayout title={resolvedPageTitle} description={description} gridOpacity={gridOpacity}>
+  <div class="page">
+    <a href="/" class="back-link font-mono" aria-label="back to the grid">← back</a>
+
+    <header class="route-header" style={`view-transition-name: card-${slug};`}>
+      <p class="call-number font-mono">{callNumber}</p>
+      <h1 class="title font-sans">{title}</h1>
+    </header>
+
+    <main class="route-main">
+      <slot />
+    </main>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding: calc(var(--grid-step) * 2);
+    max-width: 1440px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--grid-step) * 2);
+  }
+
+  .back-link {
+    align-self: flex-start;
+    font-size: var(--text-xs);
+    color: var(--ink-soft);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+  }
+  .back-link:hover,
+  .back-link:focus-visible {
+    color: var(--ink);
+  }
+
+  .route-header {
+    /* The card morphs into this block on navigation in. */
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .call-number {
+    font-size: var(--text-xs);
+    color: var(--ink-faint);
+    letter-spacing: 0.04em;
+    margin: 0;
+  }
+
+  .title {
+    font-size: var(--text-2xl);
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.15;
+    margin: 0;
+  }
+
+  .route-main {
+    flex: 1;
+  }
+</style>

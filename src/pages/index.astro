@@ -1,0 +1,54 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import Card from "../components/Card.astro";
+import { cards } from "../lib/cards";
+---
+
+<BaseLayout
+  title="olga nikulina"
+  description="a small notebook by olga nikulina — engineer, lead, reader."
+  gridOpacity={1}
+>
+  <div class="page">
+    <SiteHeader />
+    <main class="grid">
+      {cards.map((card) => <Card {...card} />)}
+    </main>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    /* Outer rhythm snaps to the 24px graph-paper step */
+    padding: calc(var(--grid-step) * 2) calc(var(--grid-step) * 2);
+    max-width: 1440px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--grid-step) * 2);
+  }
+
+  .grid {
+    display: grid;
+    /* Mobile-first: single column, full-width cards */
+    grid-template-columns: 1fr;
+    gap: var(--grid-step);
+  }
+
+  /* Desktop: 12-col asymmetric grid snapping to the 24px rhythm.
+   *
+   * grid-auto-rows is 72px (3 grid-steps); a card's min-height is 144px
+   * (6 grid-steps), so every card MUST span at least 2 rows or it will
+   * visually overflow into the next row. cards.ts enforces this with
+   * md:row-span-2 on every card. If you add a new card here, do the same.
+   */
+  @media (min-width: 768px) {
+    .grid {
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: calc(var(--grid-step) * 3);
+      gap: var(--grid-step);
+    }
+  }
+</style>

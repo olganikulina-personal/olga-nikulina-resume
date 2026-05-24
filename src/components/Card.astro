@@ -1,0 +1,103 @@
+---
+/*
+ * Card — one cell on the home grid.
+ *
+ * Composition (per design spec):
+ *   call-number   (top-left, mono xs, ink-faint)
+ *   title         (sans medium, lg, ink)
+ *   subtitle?     (sans, sm, ink-soft)
+ *
+ * Visual rules:
+ *   - No border. Separation comes from spacing + graph paper continuing through.
+ *   - Fill is --paper-soft at ~70% opacity so the underlay grid shows through.
+ *     This is the load-bearing detail that kills the "dashboard" read.
+ *   - view-transition-name is declared per-card via inline style so U4 can
+ *     light up the View Transitions API morph without further changes here.
+ *
+ * Hover effect (CSS underline draw) is wired in U4. For now the anchor is
+ * just an anchor — clicking it navigates, no animation yet.
+ */
+import type { Card as CardData } from "../lib/cards";
+
+type Props = CardData;
+
+const { slug, href, title, callNumber, subtitle, gridClass } = Astro.props;
+---
+
+<a
+  href={href}
+  class={`card ${gridClass}`}
+  style={`view-transition-name: card-${slug};`}
+>
+  <span class="call-number font-mono">{callNumber}</span>
+  <h2 class="title font-sans"><span class="title-text">{title}</span></h2>
+  {subtitle && <p class="subtitle font-sans">{subtitle}</p>}
+</a>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.25rem;
+    /* Fill at ~70% opacity so the graph-paper grid lines pass through */
+    background-color: color-mix(in oklab, var(--paper-soft) 70%, transparent);
+    color: var(--ink);
+    text-decoration: none;
+    padding: calc(var(--grid-step) * 1) calc(var(--grid-step) * 1.25);
+    min-height: calc(var(--grid-step) * 6); /* 144px — fits 6 grid rows */
+    position: relative;
+    isolation: isolate;
+  }
+
+  .call-number {
+    position: absolute;
+    top: calc(var(--grid-step) * 0.5);
+    left: calc(var(--grid-step) * 1.25);
+    font-size: var(--text-xs);
+    color: var(--ink-faint);
+    letter-spacing: 0.04em;
+  }
+
+  .title {
+    font-size: var(--text-lg);
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.25;
+    margin: 0;
+  }
+
+  /*
+   * Hover underline — pure CSS, left-to-right wipe over ~180ms.
+   * The span wraps the text so the underline width is the text width,
+   * not the title block's. background-image is a 1px ink line; its size
+   * animates from 0% to 100% on hover. ease-out is the spec.
+   */
+  .title-text {
+    background-image: linear-gradient(to right, var(--ink), var(--ink));
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 1px;
+    padding-bottom: 2px;
+    transition: background-size 180ms ease-out;
+  }
+
+  .card:hover .title-text,
+  .card:focus-visible .title-text {
+    background-size: 100% 1px;
+  }
+
+  .card:focus-visible {
+    outline: 2px solid var(--marker);
+    outline-offset: 4px;
+  }
+
+  .subtitle {
+    font-size: var(--text-sm);
+    font-weight: 400;
+    color: var(--ink-soft);
+    line-height: 1.4;
+    margin: 0;
+    max-width: 42ch;
+  }
+</style>

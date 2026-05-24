@@ -1,0 +1,47 @@
+---
+import EssayLayout from "../../layouts/EssayLayout.astro";
+import { getCollection, type CollectionEntry } from "astro:content";
+import { cards, type Card } from "../../lib/cards";
+
+/*
+ * Generate one route per essay markdown file. The slug on disk
+ * (e.g. faster-horse.md) must match a card with isEssay=true in cards.ts;
+ * we fail loudly at build time if they don't line up.
+ */
+export async function getStaticPaths() {
+  const essays = await getCollection("essays", ({ data }) => !data.draft);
+  const essayCards = cards.filter((c) => c.isEssay);
+
+  return essays.map((entry) => {
+    const card = essayCards.find((c) => c.slug === entry.slug);
+    if (!card) {
+      throw new Error(
+        `Essay '${entry.slug}' has no matching card in src/lib/cards.ts. ` +
+          `Add it (isEssay: true) or rename the markdown file.`
+      );
+    }
+    return {
+      params: { slug: entry.slug },
+      props: { entry, card },
+    };
+  });
+}
+
+interface Props {
+  entry: CollectionEntry<"essays">;
+  card: Card;
+}
+
+const { entry, card } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<EssayLayout
+  card={card}
+  title={entry.data.title}
+  subtitle={entry.data.subtitle}
+  publishedAt={entry.data.publishedAt}
+  updatedAt={entry.data.updatedAt}
+>
+  <Content />
+</EssayLayout>

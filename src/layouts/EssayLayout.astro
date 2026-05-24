@@ -1,0 +1,240 @@
+---
+/*
+ * EssayLayout — the destination side of an essay route.
+ *
+ * Different envelope from RouteLayout:
+ *   - graph paper drops to 0 opacity (essays are typesetting, not grid)
+ *   - body type is Source Serif 4, not Plex Sans
+ *   - narrower measure (62ch) for sustained reading
+ *   - no view-transition-name on the title block; essays morph in
+ *     via the dynamic-route opt-in name set per-card. That happens in
+ *     [slug].astro where the card metadata is known.
+ *
+ * Heads-up: prev/next nav at the bottom uses cards.ts as the ordering
+ * source. Essay order in cards.ts (t-01..t-04) matches the call-numbers,
+ * so 'prev'/'next' walks call-number-ascending.
+ */
+import BaseLayout from "./BaseLayout.astro";
+import { cards, type Card } from "../lib/cards";
+
+interface Props {
+  card: Card;
+  title: string;
+  subtitle?: string;
+  publishedAt: Date;
+  updatedAt?: Date;
+}
+
+const { card, title, subtitle, publishedAt, updatedAt } = Astro.props;
+
+// Build prev/next from the essay-only slice of cards, in declared order.
+const essays = cards.filter((c) => c.isEssay);
+const idx = essays.findIndex((c) => c.slug === card.slug);
+const prev = idx > 0 ? essays[idx - 1] : null;
+const next = idx >= 0 && idx < essays.length - 1 ? essays[idx + 1] : null;
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+---
+
+<BaseLayout
+  title={`${title} — olga nikulina`}
+  description={subtitle ?? title}
+  gridOpacity={0}
+>
+  <div class="page">
+    <a href="/" class="back-link font-mono" aria-label="back to the grid">← back</a>
+
+    <header class="essay-header" style={`view-transition-name: card-${card.slug};`}>
+      <p class="call-number font-mono">{card.callNumber}</p>
+      <h1 class="title">{title}</h1>
+      {subtitle && <p class="subtitle">{subtitle}</p>}
+      <p class="meta font-mono">
+        <time datetime={publishedAt.toISOString()}>{fmt(publishedAt)}</time>
+        {updatedAt && (
+          <>
+            <span aria-hidden="true"> · </span>
+            <span>updated <time datetime={updatedAt.toISOString()}>{fmt(updatedAt)}</time></span>
+          </>
+        )}
+      </p>
+    </header>
+
+    <article class="prose">
+      <slot />
+    </article>
+
+    {(prev || next) && (
+      <nav class="essay-nav" aria-label="other essays">
+        {prev ? (
+          <a href={prev.href} class="nav-link prev font-sans">
+            <span class="nav-dir font-mono">← {prev.callNumber}</span>
+            <span class="nav-title">{prev.title}</span>
+          </a>
+        ) : (
+          <span class="nav-spacer" aria-hidden="true"></span>
+        )}
+        {next ? (
+          <a href={next.href} class="nav-link next font-sans">
+            <span class="nav-dir font-mono">{next.callNumber} →</span>
+            <span class="nav-title">{next.title}</span>
+          </a>
+        ) : (
+          <span class="nav-spacer" aria-hidden="true"></span>
+        )}
+      </nav>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding: calc(var(--grid-step) * 2);
+    max-width: 1440px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--grid-step) * 1.5);
+  }
+
+  .back-link {
+    align-self: flex-start;
+    font-size: var(--text-xs);
+    color: var(--ink-soft);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+  }
+  .back-link:hover, .back-link:focus-visible { color: var(--ink); }
+
+  .essay-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    max-width: 62ch;
+  }
+  .call-number {
+    font-size: var(--text-xs);
+    color: var(--ink-faint);
+    letter-spacing: 0.04em;
+    margin: 0;
+  }
+  .title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.875rem, 4vw, 2.625rem);
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.15;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  .subtitle {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: var(--text-lg);
+    color: var(--ink-soft);
+    line-height: 1.4;
+    margin: 0;
+  }
+  .meta {
+    font-size: var(--text-xs);
+    color: var(--ink-faint);
+    letter-spacing: 0.04em;
+    margin: 0;
+  }
+
+  /* Essay body typesetting */
+  .prose {
+    max-width: 62ch;
+    font-family: var(--font-serif);
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: var(--ink);
+  }
+  .prose :global(p) {
+    margin: 0 0 1.1em;
+  }
+  .prose :global(p + p) {
+    /* No top margin needed; bottom margin on previous p handles it. */
+  }
+  .prose :global(h2) {
+    font-family: var(--font-sans);
+    font-size: var(--text-xl);
+    font-weight: 500;
+    margin: calc(var(--grid-step) * 1.5) 0 0.5rem;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+  .prose :global(h3) {
+    font-family: var(--font-sans);
+    font-size: var(--text-lg);
+    font-weight: 500;
+    margin: calc(var(--grid-step) * 1) 0 0.25rem;
+    color: var(--ink);
+  }
+  .prose :global(blockquote) {
+    margin: 1.25rem 0;
+    padding-left: 1rem;
+    border-left: 1px solid var(--rule);
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+  .prose :global(a) {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+  .prose :global(a:hover) { color: var(--marker); }
+  .prose :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.92em;
+    background-color: var(--paper-soft);
+    padding: 0.1em 0.35em;
+  }
+  .prose :global(pre) {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    background-color: var(--paper-soft);
+    padding: 1rem;
+    overflow-x: auto;
+    line-height: 1.5;
+  }
+  .prose :global(pre code) {
+    background: none;
+    padding: 0;
+  }
+  .prose :global(ul), .prose :global(ol) {
+    margin: 0.5rem 0 1rem;
+    padding-left: 1.5rem;
+  }
+  .prose :global(li) { margin-bottom: 0.35rem; }
+  .prose :global(hr) {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: calc(var(--grid-step) * 1.5) 0;
+  }
+
+  /* Prev / next */
+  .essay-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: calc(var(--grid-step) * 1);
+    margin-top: calc(var(--grid-step) * 2);
+    padding-top: calc(var(--grid-step) * 1);
+    border-top: 1px solid var(--rule);
+    max-width: 62ch;
+  }
+  .nav-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .nav-link.next { text-align: right; align-items: flex-end; }
+  .nav-dir { font-size: var(--text-xs); color: var(--ink-faint); letter-spacing: 0.04em; }
+  .nav-title { font-size: var(--text-sm); font-weight: 500; }
+  .nav-link:hover .nav-title { color: var(--marker); }
+  .nav-spacer { display: block; }
+</style>

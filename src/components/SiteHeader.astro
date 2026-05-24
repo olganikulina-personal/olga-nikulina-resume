@@ -1,0 +1,57 @@
+---
+/*
+ * SiteHeader — the small wordmark that sits at the top-left of the home grid.
+ *
+ * Per design spec:
+ *   - A small graph-paper-square favicon-mark (placeholder inline SVG until
+ *     a hand-drawn version lands in U8).
+ *   - "olga nikulina" in IBM Plex Sans medium, text-sm, lowercase, --ink.
+ *   - Lives ONLY on the home grid; route pages get a "← back" link instead
+ *     (handled by RouteLayout in U4).
+ */
+---
+
+<header class="site-header">
+  <svg
+    class="mark"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
+    <!-- graph-paper square frame -->
+    <rect
+      x="2.5" y="2.5" width="19" height="19"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1"
+    />
+    <!-- one internal grid line, vertical + horizontal, suggesting paper -->
+    <line x1="12" y1="2.5" x2="12" y2="21.5" stroke="currentColor" stroke-width="0.5" opacity="0.5" />
+    <line x1="2.5" y1="12" x2="21.5" y2="12" stroke="currentColor" stroke-width="0.5" opacity="0.5" />
+    <!-- the ink mark inside the square -->
+    <circle cx="16.5" cy="7.5" r="1.25" fill="currentColor" />
+  </svg>
+  <span class="wordmark font-sans">olga nikulina</span>
+</header>
+
+<style>
+  .site-header {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    color: var(--ink);
+  }
+
+  .mark {
+    display: block;
+    color: var(--ink);
+  }
+
+  .wordmark {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: 0.01em;
+  }
+</style>
