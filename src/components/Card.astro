@@ -30,7 +30,7 @@ const { slug, href, title, callNumber, subtitle, gridClass } = Astro.props;
   style={`view-transition-name: card-${slug};`}
 >
   <span class="call-number font-mono">{callNumber}</span>
-  <h2 class="title font-sans">{title}</h2>
+  <h2 class="title font-sans"><span class="title-text">{title}</span></h2>
   {subtitle && <p class="subtitle font-sans">{subtitle}</p>}
 </a>
 
@@ -65,6 +65,31 @@ const { slug, href, title, callNumber, subtitle, gridClass } = Astro.props;
     color: var(--ink);
     line-height: 1.25;
     margin: 0;
+  }
+
+  /*
+   * Hover underline — pure CSS, left-to-right wipe over ~180ms.
+   * The span wraps the text so the underline width is the text width,
+   * not the title block's. background-image is a 1px ink line; its size
+   * animates from 0% to 100% on hover. ease-out is the spec.
+   */
+  .title-text {
+    background-image: linear-gradient(to right, var(--ink), var(--ink));
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 1px;
+    padding-bottom: 2px;
+    transition: background-size 180ms ease-out;
+  }
+
+  .card:hover .title-text,
+  .card:focus-visible .title-text {
+    background-size: 100% 1px;
+  }
+
+  .card:focus-visible {
+    outline: 2px solid var(--marker);
+    outline-offset: 4px;
   }
 
   .subtitle {

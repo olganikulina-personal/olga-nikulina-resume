@@ -1,0 +1,32 @@
+---
+import RouteLayout from "../../layouts/RouteLayout.astro";
+import { cards, type Card } from "../../lib/cards";
+
+export function getStaticPaths() {
+  return cards
+    .filter((c: Card) => c.isEssay)
+    .map((c: Card) => ({
+      params: { slug: c.slug },
+      props: { card: c },
+    }));
+}
+
+interface Props {
+  card: Card;
+}
+
+const { card } = Astro.props;
+---
+
+<RouteLayout
+  slug={card.slug}
+  callNumber={card.callNumber}
+  title={card.title}
+  description={card.subtitle ?? card.title}
+>
+  <p class="stub">essay content lands in U7.</p>
+</RouteLayout>
+
+<style>
+  .stub { color: var(--ink-soft); font-size: var(--text-base); }
+</style>

@@ -1,0 +1,19 @@
+---
+import RouteLayout from "../layouts/RouteLayout.astro";
+import { cards } from "../lib/cards";
+
+const card = cards.find((c) => c.slug === "contact")!;
+---
+
+<RouteLayout
+  slug={card.slug}
+  callNumber={card.callNumber}
+  title={card.title}
+  description="say hello."
+>
+  <p class="stub">contact form lands in U5.</p>
+</RouteLayout>
+
+<style>
+  .stub { color: var(--ink-soft); font-size: var(--text-base); }
+</style>

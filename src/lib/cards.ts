@@ -71,6 +71,15 @@ export const cards: Card[] = [
     isEssay: true,
   },
   {
+    slug: "dallas-incident",
+    href: "/thoughts/dallas-incident",
+    title: "the dallas incident",
+    callNumber: "t-04",
+    subtitle: "a low-stakes bug, a high-stakes UAT, one bruce willis",
+    gridClass: "md:col-span-8 md:col-start-1 md:row-start-5",
+    isEssay: true,
+  },
+  {
     slug: "contact",
     href: "/contact",
     title: "say hello",
