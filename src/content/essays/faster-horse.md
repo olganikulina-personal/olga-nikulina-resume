@@ -2,26 +2,20 @@
 title: "a faster horse"
 subtitle: "on hearing the real ask under the asked ask"
 callNumber: "t-01"
-publishedAt: 2026-05-24
+publishedAt: 2026-05-29
 draft: false
 ---
 
-The line is attributed to Henry Ford, probably falsely: "If I had asked people what they wanted, they would have said faster horses." The quote is suspicious. The lesson is not.
+Most of engineering, if we're being entirely honest, involves sitting quietly with a client’s request until you realize it isn't a request at all, it's a description of a workaround.
 
-[placeholder body — replace with the real essay]
+Someone asks for a faster horse because they haven’t the faintest idea what a car looks like; someone asks for a glowing red button because they don’t actually understand how their own inbox works. It’s an old problem, famously packaged in that suspicious Henry Ford quote about equine velocity. But while it's a well-documented phenomenon when selling things to the general public, and it becomes downright surreal when you enter the twilight zone of B2B software.
 
-The job, most days, is sitting with a request long enough to notice that the request is a description of a workaround. Someone asks for a faster horse because they've never seen a car. Someone asks for a button because they don't know what an inbox is. Someone asks for a dashboard because they want to be told they're winning, and they've decided counting is how you know.
+In the corporate ecosystem, motivations are siloed into impenetrable fortresses. Marketing wants one thing, Procurement wants another, and IT just wants everyone to stop touching things. Trying to find the true source of a problem through these layers is what defines an excellent engineer.
 
-You can build the faster horse. It will be appreciated. It will not be loved.
+So, how do they do it? They channel our inner child.
 
-The harder thing — the actual job — is asking the next question. *Why faster?* What is the journey, where does it end, what is at the end, and is the speed of the horse the thing that determines whether you get there.
+There's a management technique called the "Five Whys," which involves asking why a problem exists, and then asking why to that answer, and so on, until you reach the bedrock of reality. Anyone who has spent more than eleven minutes in the presence of a small child will recognize this as the exact mechanism used to determine why grass is green or why water is wet.
 
-Sometimes the answer is yes. Build the horse. Make it fast.
+Engineers, much like toddlers, are inherently designed to probe, validate, and test boundaries. When a client brings us a beautifully bound, fifty-page specification document for a "faster horse," our job is to look them in the eye and gently ask the questions they didn't sign up for. Where are you actually trying to go? And does the horse have anything to do with it?
 
-Sometimes the answer is no, and now you have to say so, and now you have to propose something else, and now the conversation gets harder before it gets better. This is the part of the job most engineers don't sign up for. It's also the part where the actual work happens.
-
----
-
-[placeholder section — a story about a specific time this happened to me]
-
-I'll fill this in. There's a good one about a "search filter" that turned out to be an inventory problem.
+Sometimes, after all the grilling, the answer is yes. You build the horse. You make it exceptionally fast. But more often than not, you realize you need to build something entirely different—and that is where the real work begins. It’s loud, it’s frustrating, and it involves a lot of squinting at the whiteboard, but it's incredibly necessary.

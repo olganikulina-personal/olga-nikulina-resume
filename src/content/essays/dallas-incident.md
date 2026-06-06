@@ -2,28 +2,27 @@
 title: "the dallas incident"
 subtitle: "a low-stakes bug, a high-stakes UAT, one bruce willis"
 callNumber: "t-04"
-publishedAt: 2026-05-24
+publishedAt: 2026-06-01
 draft: false
 ---
 
-This is a true story about staging environments, account managers, best practices, and Bruce Willis.
+There is no feeling quite like the quiet triumph of finding a truly magnificent bug. As a young QA engineer, it's the closest you get to feeling like a Victorian explorer mapping a new continent. You found the crack in the armor! You are a genius!
 
-[placeholder — the actual essay is short and you (the human) are going to write the final version, but here's a sketch]
+Until...you realize the continent you just mapped is currently on fire.
 
-I was testing an external API — the one that lets clients set product images programmatically. There was a bug. The bug was that no matter which product you targeted, the API would set the image on every product in the catalog. One image. All products. A bulk operation disguised as a targeted one.
+Years ago, I was testing a piece of code responsible for pushing images into a product gallery. For reasons that made total sense to me at the time, my default test asset was a high-resolution still from The Fifth Element. Specifically, it was Bruce Willis looking intensely focused in that famous, ribbed, orange tank top, aiming a very large, very sci-fi gun at whoever was looking at the screen.
 
-The bug was on staging. I logged it, moved on, didn't think it was urgent. Staging is staging. Staging is *for* this.
+I ran the test and, in a flash of terrifying efficiency, the system overrode every single product image listing in the entire portal. Every single item on the screen was suddenly, uniformly, Korben Dallas.
 
-What I did not know — what nobody told me — was that an account manager was, at that moment, running a UAT with a real client *on staging*. Against best practice. Against, frankly, the entire reason we have staging in the first place. But it was happening. The client was poking around their portal, looking at their products, evaluating whether to renew.
+I was just leaning back to admire this wall-to-wall Bruce-fest when the atmosphere in the room shifted.
 
-And then I ran my test.
+The Product Manager next to me got a call. The voice on the other end was pitched at a frequency usually reserved for dog whistles and maritime disasters. It was an Account Manager, and she was currently in the middle of a live walk-through with a client.
 
-Their entire product catalog became Bruce Willis. Specifically: Bruce Willis as Korben Dallas in *The Fifth Element*. The pixelated, mid-resolution, late-90s movie still that, for reasons I no longer remember, was the image I'd been using as test input. Hundreds of products. Every category. Every variant.
+Standard engineering protocol dictates that you never, ever show a client Staging. Staging is where the sausage is made and the machinery is actively spitting grease. For whatever reason, our AM had bypassed the safe environments entirely and ushered her client right into what appeared to be a highly aggressive, heavily armed marketing campaign for 90s sci-fi cinema.
 
-The account manager called me directly. Not Slack. Phone.
 
-[placeholder — what happened next. The lessons, the laughs, the part where the client allegedly thought it was a feature. The thing I learned about test inputs. The thing I learned about staging.]
+For a few agonizing moments, I was entirely convinced I'd committed a horrible crime. I sat frozen, staring at a sea of orange tank tops, waiting for the axe to fall.
 
-The moral, if there is one: choose your test images carefully. Choose your testing windows more carefully. And if you ever get to pick the absurd image that ruins someone's day, may yours be as good as mine was.
+In the end, it was a beautifully low-stakes crisis. The PM calmly instructed her to log out of Staging, use the actual sandbox, and pretend the whole thing had been a strange, localized hallucination. The client, presumably assuming it was some sort of avant-garde Los Angeles tech branding exercise, moved on.
 
-*multipass.*
+I survived the day and learned two invaluable lessons. First, never underestimate the capacity for someone to use an environment they shouldn't be in. And second, if you're going to accidentally break an entire corporate enterprise, always do it with a sense of cinematic style.
