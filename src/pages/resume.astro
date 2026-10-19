@@ -17,6 +17,14 @@ const { Content } = await entry.render();
   title={card.title}
   description="ten years of building, leading, and shipping software."
 >
+  <div class="resume-actions">
+    <a href="/Olga_Nikulina_Resume.pdf" class="pdf-link font-mono" target="_blank" rel="noopener">
+      view pdf ↗
+    </a>
+    <a href="/Olga_Nikulina_Resume.pdf" class="pdf-link font-mono" download>
+      download pdf →
+    </a>
+  </div>
 
   <article class="prose">
     <Content />
@@ -25,6 +33,8 @@ const { Content } = await entry.render();
 
 <style>
   .resume-actions {
+    display: flex;
+    gap: 1.5rem;
     margin-bottom: calc(var(--grid-step) * 1);
   }
 
