@@ -2,7 +2,7 @@
 
 Los Angeles, CA
 
-## Professional Summary
+## Professional summary
 
 Senior full-stack engineer and team lead with 10+ years building B2B SaaS products with React, TypeScript, Node.js, Go, Java, and Google Cloud data stores.
 
@@ -10,7 +10,7 @@ Lead technical design for cross-service features and led engineering delivery of
 
 Recently built AI-assisted developer tooling that improves delivery and engineering processes.
 
-## Professional Experience
+## Professional experience
 
 ### NuORDER by Lightspeed
 **Team Lead / Senior Software Engineer**  
@@ -51,7 +51,7 @@ Pasadena, CA · January 2012 – June 2012
 
 - Modified legacy Fortran atmospheric-modeling code for parallel processing and packaged it for use by other learning institutions.
 
-## Selected Engineering Initiatives
+## Selected engineering initiatives
 
 - **Release-readiness audit:** Built an AI-agent skill (Python; Jira, GitLab, GitHub, LaunchDarkly) that maps a Jira release to tickets, repos, services, and new flags; shared for local use in June 2026, and since October 2026 it runs as in-browser reports in the team's release app.
 - **Team-progress validation:** Built a TypeScript, Node.js, and PostgreSQL app using Gemini that cross-checks Jira, GitLab, GitHub, and Slack to flag blockers, due dates, and releases missing a fix version; runs daily for both teams.
@@ -63,16 +63,16 @@ Pasadena, CA · January 2012 – June 2012
 **Languages**  
 TypeScript, JavaScript, Go, Java, Python, SQL
 
-**Full-Stack**  
+**Full-stack**\
 React, micro-frontend (MFE) architecture, Node.js (NestJS, Express), REST APIs, Prisma, Docker
 
-**Data & Cloud**  
+**Data & cloud**\
 Google Cloud (BigQuery, Bigtable, Spanner), MongoDB, PostgreSQL, SQLite
 
-**AI Engineering**  
+**AI engineering**\
 LLM integration (OpenAI, Gemini), AI agent skills, MCP, GitHub Copilot
 
-**Engineering Practices**  
+**Engineering practices**\
 Technical design, code review, automated testing (Vitest), GitHub, GitLab, Jira
 
 **Leadership**  

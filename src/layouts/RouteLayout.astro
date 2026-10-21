@@ -1,40 +1,30 @@
 ---
 /*
- * RouteLayout — wraps non-essay routes (bio, resume, contact, now).
+ * RouteLayout — the shared system-document shell for non-essay routes.
  *
- * Hosts:
- *   - the back link top-left (← back to grid)
- *   - the route's call-number + title block, which carries the matching
- *     view-transition-name so the browser morphs the card into this header
- *     during navigation from /. (No JS — single CSS property declaration.)
- *
- * Essay routes use EssayLayout (built in U7) instead, which sets a different
- * typesetting envelope (Source Serif body, narrower measure, no graph paper).
+ * Essays use EssayLayout because their reading surface is intentionally
+ * quieter. This shell keeps navigation and page chrome consistent while
+ * leaving each route's content responsible for its own typography.
  */
 import BaseLayout from "./BaseLayout.astro";
+import RetroPanel from "../components/RetroPanel.astro";
 
 interface Props {
-  /** Card slug — must match the home grid's slug for the morph to work. */
-  slug: string;
-  /** Visible call-number, e.g. 'b-01'. */
-  callNumber: string;
-  /** Route title. Rendered as H1 with sans medium. */
+  /** Route title rendered as the page H1. */
   title: string;
   /** Page <title> override; falls back to `${title} — olga nikulina`. */
   pageTitle?: string;
   /** <meta name="description"> for SEO. */
   description?: string;
-  /** Graph paper underlay opacity. Defaults to 0.5 for route pages. */
+  /** Legacy underlay control; route pages default to system chrome. */
   gridOpacity?: number;
 }
 
 const {
-  slug,
-  callNumber,
   title,
   pageTitle,
   description,
-  gridOpacity = 0.5,
+  gridOpacity = 0,
 } = Astro.props;
 
 const resolvedPageTitle = pageTitle ?? `${title} — olga nikulina`;
@@ -42,65 +32,139 @@ const resolvedPageTitle = pageTitle ?? `${title} — olga nikulina`;
 
 <BaseLayout title={resolvedPageTitle} description={description} gridOpacity={gridOpacity}>
   <div class="page">
-    <a href="/" class="back-link font-mono" aria-label="back to the grid">← back</a>
-
-    <header class="route-header" style={`view-transition-name: card-${slug};`}>
-      <p class="call-number font-mono">{callNumber}</p>
-      <h1 class="title font-sans">{title}</h1>
+    <header class="route-toolbar">
+      <a href="/" class="back-link font-mono" aria-label="Back to home">← Explorer</a>
+      <span class="path font-mono">Home / {title}</span>
     </header>
 
     <main class="route-main">
-      <slot />
+      <RetroPanel title="Document" class="route-panel">
+        <header class="route-header">
+          <p class="eyebrow font-mono">Document / {title}</p>
+          <h1 class="title font-sans">{title}</h1>
+        </header>
+
+        <div class="route-content">
+          <slot />
+        </div>
+      </RetroPanel>
     </main>
+
+    <div class="status-bar font-mono" aria-label="System status">
+      <span>Ready</span>
+      <span>Opened / {title}</span>
+    </div>
   </div>
 </BaseLayout>
 
 <style>
   .page {
-    padding: calc(var(--grid-step) * 2);
-    max-width: 1440px;
-    margin: 0 auto;
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    gap: calc(var(--grid-step) * 2);
+    gap: 1rem;
+    min-height: 100vh;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 1rem;
+    background: var(--system-bg);
+    color: var(--system-text);
   }
 
-  .back-link {
-    align-self: flex-start;
+  .route-toolbar {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.5rem 0.625rem;
+    border: 1px solid var(--system-border-dark);
+    background: var(--system-panel);
+    box-shadow:
+      inset 1px 1px 0 var(--system-border-light),
+      inset -1px -1px 0 var(--system-border-deep);
+  }
+
+  .back-link,
+  .path {
     font-size: var(--text-xs);
-    color: var(--ink-soft);
+    color: var(--system-muted);
     text-decoration: none;
     letter-spacing: 0.04em;
   }
+
+  .back-link {
+    color: var(--system-title);
+  }
+
   .back-link:hover,
   .back-link:focus-visible {
-    color: var(--ink);
+    color: var(--system-accent);
   }
 
-  .route-header {
-    /* The card morphs into this block on navigation in. */
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
+  .back-link:focus-visible {
+    outline: 2px solid var(--system-accent);
+    outline-offset: 3px;
   }
 
-  .call-number {
-    font-size: var(--text-xs);
-    color: var(--ink-faint);
-    letter-spacing: 0.04em;
-    margin: 0;
-  }
-
-  .title {
-    font-size: var(--text-2xl);
-    font-weight: 500;
-    color: var(--ink);
-    line-height: 1.15;
-    margin: 0;
+  .path {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .route-main {
     flex: 1;
+  }
+
+  .route-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .eyebrow {
+    margin: 0;
+    color: var(--system-muted);
+    font-size: var(--text-xs);
+    letter-spacing: 0.06em;
+  }
+
+  .title {
+    margin: 0;
+    color: var(--system-text);
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    font-weight: 500;
+    line-height: 1.1;
+  }
+
+  .route-content {
+    margin-top: 1.5rem;
+  }
+
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.375rem 0.5rem;
+    border: 1px solid var(--system-border-dark);
+    background: var(--system-panel);
+    color: var(--system-muted);
+    font-size: var(--text-xs);
+  }
+
+  @media (max-width: 480px) {
+    .page {
+      padding: 0.75rem;
+    }
+
+    .route-toolbar,
+    .status-bar {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .route-content {
+      margin-top: 1rem;
+    }
   }
 </style>

@@ -12,10 +12,8 @@ const { Content } = await entry.render();
 ---
 
 <RouteLayout
-  slug={card.slug}
-  callNumber={card.callNumber}
   title={card.title}
-  description="ten years of building, leading, and shipping software."
+  description="Ten years of building, leading, and shipping software."
 >
   <div class="resume-actions">
     <a href="/Olga_Nikulina_Resume.pdf" class="pdf-link font-mono" target="_blank" rel="noopener">
@@ -51,13 +49,12 @@ const { Content } = await entry.render();
   /*
    * .prose: typographic envelope for the rendered markdown. The MD pipeline
    * outputs unstyled tags; everything below is the type system speaking.
-   * Long-form single-column scroll, 68ch measure for readability.
+   * Long-form single-column scroll across the document panel.
    *
    * The resume's H1 ('Olga Nikulina') is redundant with the RouteLayout's
    * title block, so it's hidden — the page already announces itself.
    */
   .prose {
-    max-width: 68ch;
     font-size: var(--text-base);
     color: var(--ink);
     line-height: 1.65;

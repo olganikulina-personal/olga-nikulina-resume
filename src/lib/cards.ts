@@ -7,7 +7,7 @@
  * neutralized by a media-query reset in index.astro.
  *
  * Call-number scheme: <prefix>-NN where prefix is the route family.
- *   b- bio · r- resume · c- contact · n- now · t- thoughts (essays)
+ *   b- bio · r- resume · c- contact · t- thoughts (essays)
  */
 export interface Card {
   slug: string;
@@ -24,68 +24,60 @@ export const cards: Card[] = [
   {
     slug: "bio",
     href: "/bio",
-    title: "who, briefly",
+    title: "Who, briefly",
     callNumber: "b-01",
-    subtitle: "the inside cover",
+    subtitle: "The inside cover",
     gridClass: "md:col-span-6 md:row-span-2 md:col-start-1 md:row-start-1",
   },
   {
     slug: "resume",
     href: "/resume",
-    title: "the working record",
+    title: "The working record",
     callNumber: "r-01",
-    subtitle: "ten years, in order",
+    subtitle: "Ten years, in order",
     gridClass: "md:col-span-6 md:row-span-2 md:col-start-7 md:row-start-1",
-  },
-  {
-    slug: "now",
-    href: "/now",
-    title: "currently",
-    callNumber: "n-01",
-    subtitle: "what's live, right now",
-    gridClass: "md:col-span-4 md:row-span-2 md:col-start-1 md:row-start-3",
   },
   {
     slug: "faster-horse",
     href: "/thoughts/faster-horse",
-    title: "a faster horse",
+    title: "A faster horse",
     callNumber: "t-01",
-    subtitle: "on hearing the real ask under the asked ask",
+    subtitle: "On hearing the real ask under the asked ask",
     gridClass: "md:col-span-4 md:row-span-2 md:col-start-5 md:row-start-3",
     isEssay: true,
   },
   {
     slug: "novelty-tax",
     href: "/thoughts/novelty-tax",
-    title: "the novelty tax",
+    title: "The novelty tax",
     callNumber: "t-02",
-    subtitle: "on the cost of newness",
+    subtitle: "What every new thing costs you, paid quietly",
     gridClass: "md:col-span-4 md:row-span-2 md:col-start-9 md:row-start-3",
     isEssay: true,
   },
   {
     slug: "criminal-orders",
     href: "/thoughts/criminal-orders",
-    title: "orders without a crime",
+    title: "Orders without a crime",
     callNumber: "t-03",
-    subtitle: "the longest one — start here if you start somewhere",
+    subtitle: "The longest one — start here if you start somewhere",
     gridClass: "md:col-span-12 md:row-span-2 md:col-start-1 md:row-start-5",
     isEssay: true,
   },
   {
     slug: "dallas-incident",
     href: "/thoughts/dallas-incident",
-    title: "the dallas incident",
+    title: "The Dallas incident",
     callNumber: "t-04",
-    subtitle: "a low-stakes bug, a high-stakes UAT, one bruce willis",
+    subtitle: "A low-stakes bug, a high-stakes UAT, one Bruce Willis",
     gridClass: "md:col-span-8 md:row-span-2 md:col-start-1 md:row-start-7",
     isEssay: true,
   },
   {
     slug: "contact",
     href: "/contact",
-    title: "say hello",
-    subtitle: "short notes, long emails, random questions — all welcome.",
+    title: "Say hello",
+    subtitle: "Short notes, long emails, random questions — all welcome.",
     callNumber: "c-01",
     gridClass: "md:col-span-4 md:row-span-2 md:col-start-9 md:row-start-7",
   },

@@ -1,6 +1,6 @@
 ---
-title: "the novelty tax"
-subtitle: "what every new thing costs you, paid quietly"
+title: "The novelty tax"
+subtitle: "What every new thing costs you, paid quietly"
 callNumber: "t-02"
 publishedAt: 2026-05-24
 draft: false

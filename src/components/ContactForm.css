@@ -6,7 +6,6 @@
  */
 
 .contact-form {
-  max-width: 56ch;
   display: flex;
   flex-direction: column;
   gap: calc(var(--grid-step) * 1);

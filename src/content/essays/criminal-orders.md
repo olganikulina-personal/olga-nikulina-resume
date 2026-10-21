@@ -1,6 +1,6 @@
 ---
-title: "orders without a crime"
-subtitle: "the longest one — start here if you start somewhere"
+title: "Orders without a crime"
+subtitle: "The longest one — start here if you start somewhere"
 callNumber: "t-03"
 publishedAt: 2026-06-05
 draft: false

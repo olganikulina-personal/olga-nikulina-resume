@@ -1,20 +1,12 @@
 ---
 /*
- * EssayLayout — the destination side of an essay route.
+ * EssayLayout — a quiet reading document inside the site's system chrome.
  *
- * Different envelope from RouteLayout:
- *   - graph paper drops to 0 opacity (essays are typesetting, not grid)
- *   - body type is Source Serif 4, not Plex Sans
- *   - narrower measure (62ch) for sustained reading
- *   - no view-transition-name on the title block; essays morph in
- *     via the dynamic-route opt-in name set per-card. That happens in
- *     [slug].astro where the card metadata is known.
- *
- * Heads-up: prev/next nav at the bottom uses cards.ts as the ordering
- * source. Essay order in cards.ts (t-01..t-04) matches the call-numbers,
- * so 'prev'/'next' walks call-number-ascending.
+ * The framing follows RouteLayout, while the essay body stays Source Serif 4
+ * for sustained reading.
  */
 import BaseLayout from "./BaseLayout.astro";
+import RetroPanel from "../components/RetroPanel.astro";
 import { cards, type Card } from "../lib/cards";
 
 interface Props {
@@ -27,7 +19,6 @@ interface Props {
 
 const { card, title, subtitle, publishedAt, updatedAt } = Astro.props;
 
-// Build prev/next from the essay-only slice of cards, in declared order.
 const essays = cards.filter((c) => c.isEssay);
 const idx = essays.findIndex((c) => c.slug === card.slug);
 const prev = idx > 0 ? essays[idx - 1] : null;
@@ -43,198 +34,334 @@ const fmt = (d: Date) =>
   gridOpacity={0}
 >
   <div class="page">
-    <a href="/" class="back-link font-mono" aria-label="back to the grid">← back</a>
-
-    <header class="essay-header" style={`view-transition-name: card-${card.slug};`}>
-      <p class="call-number font-mono">{card.callNumber}</p>
-      <h1 class="title">{title}</h1>
-      {subtitle && <p class="subtitle">{subtitle}</p>}
-      <p class="meta font-mono">
-        <time datetime={publishedAt.toISOString()}>{fmt(publishedAt)}</time>
-        {updatedAt && (
-          <>
-            <span aria-hidden="true"> · </span>
-            <span>updated <time datetime={updatedAt.toISOString()}>{fmt(updatedAt)}</time></span>
-          </>
-        )}
-      </p>
+    <header class="essay-toolbar">
+      <a href="/" class="back-link font-mono" aria-label="Back to home">← Explorer</a>
+      <span class="path font-mono">Home / Thoughts / {title}</span>
     </header>
 
-    <article class="prose">
-      <slot />
-    </article>
+    <main class="essay-main">
+      <RetroPanel title="Thought" class="essay-panel">
+        <header class="essay-header">
+          <p class="eyebrow font-mono">Document / thought</p>
+          <h1 class="title">{title}</h1>
+          {subtitle && <p class="subtitle">{subtitle}</p>}
+          <p class="meta font-mono">
+            <time datetime={publishedAt.toISOString()}>{fmt(publishedAt)}</time>
+            {updatedAt && (
+              <>
+                <span aria-hidden="true"> · </span>
+                <span>
+                  updated <time datetime={updatedAt.toISOString()}>{fmt(updatedAt)}</time>
+                </span>
+              </>
+            )}
+          </p>
+        </header>
 
-    {(prev || next) && (
-      <nav class="essay-nav" aria-label="other essays">
-        {prev ? (
-          <a href={prev.href} class="nav-link prev font-sans">
-            <span class="nav-dir font-mono">← {prev.callNumber}</span>
-            <span class="nav-title">{prev.title}</span>
-          </a>
-        ) : (
-          <span class="nav-spacer" aria-hidden="true"></span>
+        <article class="prose">
+          <slot />
+        </article>
+
+        {(prev || next) && (
+          <nav class="essay-nav" aria-label="Other essays">
+            {prev ? (
+              <a
+                href={prev.href}
+                class="nav-link prev font-sans"
+                aria-label={`Previous essay: ${prev.title}`}
+              >
+                <span class="nav-dir font-mono">← Previous</span>
+                <span class="nav-title">{prev.title}</span>
+              </a>
+            ) : (
+              <span class="nav-spacer" aria-hidden="true"></span>
+            )}
+            {next ? (
+              <a
+                href={next.href}
+                class="nav-link next font-sans"
+                aria-label={`Next essay: ${next.title}`}
+              >
+                <span class="nav-dir font-mono">Next →</span>
+                <span class="nav-title">{next.title}</span>
+              </a>
+            ) : (
+              <span class="nav-spacer" aria-hidden="true"></span>
+            )}
+          </nav>
         )}
-        {next ? (
-          <a href={next.href} class="nav-link next font-sans">
-            <span class="nav-dir font-mono">{next.callNumber} →</span>
-            <span class="nav-title">{next.title}</span>
-          </a>
-        ) : (
-          <span class="nav-spacer" aria-hidden="true"></span>
-        )}
-      </nav>
-    )}
+      </RetroPanel>
+    </main>
+
+    <div class="status-bar font-mono" aria-label="System status">
+      <span>Ready</span>
+      <span>Reading / {title}</span>
+    </div>
   </div>
 </BaseLayout>
 
 <style>
   .page {
-    padding: calc(var(--grid-step) * 2);
-    max-width: 1440px;
-    margin: 0 auto;
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    gap: calc(var(--grid-step) * 1.5);
+    gap: 1rem;
+    min-height: 100vh;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 1rem;
+    background: var(--system-bg);
+    color: var(--system-text);
   }
 
-  .back-link {
-    align-self: flex-start;
+  .essay-toolbar {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.5rem 0.625rem;
+    border: 1px solid var(--system-border-dark);
+    background: var(--system-panel);
+    box-shadow:
+      inset 1px 1px 0 var(--system-border-light),
+      inset -1px -1px 0 var(--system-border-deep);
+  }
+
+  .back-link,
+  .path {
     font-size: var(--text-xs);
-    color: var(--ink-soft);
+    color: var(--system-muted);
     text-decoration: none;
     letter-spacing: 0.04em;
   }
-  .back-link:hover, .back-link:focus-visible { color: var(--ink); }
+
+  .back-link {
+    color: var(--system-title);
+  }
+
+  .back-link:hover,
+  .back-link:focus-visible {
+    color: var(--system-accent);
+  }
+
+  .back-link:focus-visible {
+    outline: 2px solid var(--system-accent);
+    outline-offset: 3px;
+  }
+
+  .path {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .essay-main {
+    flex: 1;
+  }
 
   .essay-header {
     display: flex;
     flex-direction: column;
-    gap: 0.375rem;
-    max-width: 62ch;
+    gap: 0.5rem;
   }
-  .call-number {
-    font-size: var(--text-xs);
-    color: var(--ink-faint);
-    letter-spacing: 0.04em;
+
+  .eyebrow {
     margin: 0;
+    color: var(--system-muted);
+    font-size: var(--text-xs);
+    letter-spacing: 0.06em;
   }
+
   .title {
+    margin: 0;
+    color: var(--system-text);
     font-family: var(--font-serif);
     font-size: clamp(1.875rem, 4vw, 2.625rem);
     font-weight: 500;
-    color: var(--ink);
-    line-height: 1.15;
-    margin: 0;
     letter-spacing: -0.01em;
-  }
-  .subtitle {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-size: var(--text-lg);
-    color: var(--ink-soft);
-    line-height: 1.4;
-    margin: 0;
-  }
-  .meta {
-    font-size: var(--text-xs);
-    color: var(--ink-faint);
-    letter-spacing: 0.04em;
-    margin: 0;
+    line-height: 1.15;
   }
 
-  /* Essay body typesetting */
+  .subtitle {
+    margin: 0;
+    color: var(--system-muted);
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    font-style: italic;
+    line-height: 1.4;
+  }
+
+  .meta {
+    margin: 0;
+    color: var(--system-muted);
+    font-size: var(--text-xs);
+    letter-spacing: 0.04em;
+  }
+
   .prose {
-    max-width: 62ch;
+    margin-top: 2rem;
+    color: var(--system-text);
     font-family: var(--font-serif);
     font-size: 1.125rem;
     line-height: 1.7;
-    color: var(--ink);
   }
+
   .prose :global(p) {
     margin: 0 0 1.1em;
   }
-  .prose :global(p + p) {
-    /* No top margin needed; bottom margin on previous p handles it. */
-  }
+
   .prose :global(h2) {
+    margin: calc(var(--grid-step) * 1.5) 0 0.5rem;
+    color: var(--system-text);
     font-family: var(--font-sans);
     font-size: var(--text-xl);
     font-weight: 500;
-    margin: calc(var(--grid-step) * 1.5) 0 0.5rem;
     line-height: 1.2;
-    color: var(--ink);
   }
+
   .prose :global(h3) {
+    margin: calc(var(--grid-step) * 1) 0 0.25rem;
+    color: var(--system-text);
     font-family: var(--font-sans);
     font-size: var(--text-lg);
     font-weight: 500;
-    margin: calc(var(--grid-step) * 1) 0 0.25rem;
-    color: var(--ink);
   }
+
   .prose :global(blockquote) {
     margin: 1.25rem 0;
     padding-left: 1rem;
-    border-left: 1px solid var(--rule);
-    color: var(--ink-soft);
+    border-left: 1px solid var(--system-border-dark);
+    color: var(--system-muted);
     font-style: italic;
   }
+
   .prose :global(a) {
-    color: var(--ink);
+    color: var(--system-title);
     text-decoration: underline;
     text-decoration-thickness: 1px;
     text-underline-offset: 3px;
   }
-  .prose :global(a:hover) { color: var(--marker); }
+
+  .prose :global(a:hover) {
+    color: var(--system-accent);
+  }
+
   .prose :global(code) {
+    padding: 0.1em 0.35em;
+    background: var(--paper-soft);
     font-family: var(--font-mono);
     font-size: 0.92em;
-    background-color: var(--paper-soft);
-    padding: 0.1em 0.35em;
   }
+
   .prose :global(pre) {
+    overflow-x: auto;
+    padding: 1rem;
+    background: var(--paper-soft);
     font-family: var(--font-mono);
     font-size: 0.85em;
-    background-color: var(--paper-soft);
-    padding: 1rem;
-    overflow-x: auto;
     line-height: 1.5;
   }
+
   .prose :global(pre code) {
-    background: none;
     padding: 0;
+    background: none;
   }
-  .prose :global(ul), .prose :global(ol) {
+
+  .prose :global(ul),
+  .prose :global(ol) {
     margin: 0.5rem 0 1rem;
     padding-left: 1.5rem;
   }
-  .prose :global(li) { margin-bottom: 0.35rem; }
-  .prose :global(hr) {
-    border: none;
-    border-top: 1px solid var(--rule);
-    margin: calc(var(--grid-step) * 1.5) 0;
+
+  .prose :global(li) {
+    margin-bottom: 0.35rem;
   }
 
-  /* Prev / next */
+  .prose :global(hr) {
+    margin: calc(var(--grid-step) * 1.5) 0;
+    border: none;
+    border-top: 1px solid var(--system-border-dark);
+  }
+
   .essay-nav {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: calc(var(--grid-step) * 1);
-    margin-top: calc(var(--grid-step) * 2);
-    padding-top: calc(var(--grid-step) * 1);
-    border-top: 1px solid var(--rule);
-    max-width: 62ch;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--system-border-dark);
   }
+
   .nav-link {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
+    color: var(--system-text);
     text-decoration: none;
-    color: var(--ink);
   }
-  .nav-link.next { text-align: right; align-items: flex-end; }
-  .nav-dir { font-size: var(--text-xs); color: var(--ink-faint); letter-spacing: 0.04em; }
-  .nav-title { font-size: var(--text-sm); font-weight: 500; }
-  .nav-link:hover .nav-title { color: var(--marker); }
-  .nav-spacer { display: block; }
+
+  .nav-link.next {
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  .nav-link:focus-visible {
+    outline: 2px solid var(--system-accent);
+    outline-offset: 3px;
+  }
+
+  .nav-dir {
+    color: var(--system-muted);
+    font-size: var(--text-xs);
+    letter-spacing: 0.04em;
+  }
+
+  .nav-title {
+    font-size: var(--text-sm);
+    font-weight: 500;
+  }
+
+  .nav-link:hover .nav-title {
+    color: var(--system-accent);
+  }
+
+  .nav-spacer {
+    display: block;
+  }
+
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.375rem 0.5rem;
+    border: 1px solid var(--system-border-dark);
+    background: var(--system-panel);
+    color: var(--system-muted);
+    font-size: var(--text-xs);
+  }
+
+  @media (max-width: 480px) {
+    .page {
+      padding: 0.75rem;
+    }
+
+    .essay-toolbar,
+    .status-bar {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .prose {
+      margin-top: 1.5rem;
+    }
+
+    .essay-nav {
+      grid-template-columns: 1fr;
+    }
+
+    .nav-link.next {
+      align-items: flex-start;
+      text-align: left;
+    }
+  }
 </style>

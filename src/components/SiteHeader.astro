@@ -1,57 +1,112 @@
 ---
+import { getWeatherSnapshot } from "../lib/weather";
+
 /*
- * SiteHeader — the small wordmark that sits at the top-left of the home grid.
- *
- * Per design spec:
- *   - A small graph-paper-square favicon-mark (placeholder inline SVG until
- *     a hand-drawn version lands in U8).
- *   - "olga nikulina" in IBM Plex Sans medium, text-sm, lowercase, --ink.
- *   - Lives ONLY on the home grid; route pages get a "← back" link instead
- *     (handled by RouteLayout in U4).
+ * SiteHeader — the home surface's identity strip.
+ * Route pages use RouteLayout's back link instead.
  */
+
+const weather = await getWeatherSnapshot();
 ---
 
 <header class="site-header">
-  <svg
-    class="mark"
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    aria-hidden="true"
-  >
-    <!-- graph-paper square frame -->
-    <rect
-      x="2.5" y="2.5" width="19" height="19"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="1"
-    />
-    <!-- one internal grid line, vertical + horizontal, suggesting paper -->
-    <line x1="12" y1="2.5" x2="12" y2="21.5" stroke="currentColor" stroke-width="0.5" opacity="0.5" />
-    <line x1="2.5" y1="12" x2="21.5" y2="12" stroke="currentColor" stroke-width="0.5" opacity="0.5" />
-    <!-- the ink mark inside the square -->
-    <circle cx="16.5" cy="7.5" r="1.25" fill="currentColor" />
-  </svg>
-  <span class="wordmark font-sans">olga nikulina</span>
+  <span class="wordmark font-sans">Los Angeles, CA</span>
+  <span class="weather font-mono" aria-label={`Current weather: ${weather.line}`}>
+    <svg
+      class={`weather-icon weather-${weather.kind}`}
+      viewBox="0 0 16 16"
+      width="16"
+      height="16"
+      aria-hidden="true"
+      focusable="false"
+      shape-rendering="crispEdges"
+    >
+      {weather.kind === "clear" && (
+        <>
+          <circle cx="8" cy="8" r="3" fill="var(--system-accent)" />
+          <path d="M8 1v2M8 13v2M1 8h2M13 8h2M3 3l2 2M11 11l2 2M13 3l-2 2M5 11l-2 2" stroke="var(--system-accent)" />
+        </>
+      )}
+      {weather.kind === "cloudy" && (
+        <>
+          <circle cx="6" cy="6" r="3" fill="var(--system-accent)" />
+          <path d="M4 12h9a2 2 0 0 0 0-4 4 4 0 0 0-7-1 3 3 0 0 0-2 5z" fill="var(--system-selected)" stroke="var(--system-border-dark)" />
+        </>
+      )}
+      {weather.kind === "foggy" && (
+        <>
+          <path d="M2 5h12M1 8h14M2 11h12" stroke="var(--system-muted)" stroke-width="1.5" />
+        </>
+      )}
+      {weather.kind === "rainy" && (
+        <>
+          <path d="M3 9h10a2 2 0 0 0 0-4 4 4 0 0 0-7-1 3 3 0 0 0-3 5z" fill="var(--system-selected)" stroke="var(--system-border-dark)" />
+          <path d="M5 12l-1 2M9 12l-1 2M13 12l-1 2" stroke="var(--system-accent)" />
+        </>
+      )}
+      {weather.kind === "snowy" && (
+        <>
+          <path d="M3 9h10a2 2 0 0 0 0-4 4 4 0 0 0-7-1 3 3 0 0 0-3 5z" fill="var(--system-selected)" stroke="var(--system-border-dark)" />
+          <path d="M5 12v3M3.5 13.5h3M9 12v3M7.5 13.5h3M13 12v3M11.5 13.5h3" stroke="var(--system-accent)" />
+        </>
+      )}
+      {weather.kind === "stormy" && (
+        <>
+          <path d="M3 9h10a2 2 0 0 0 0-4 4 4 0 0 0-7-1 3 3 0 0 0-3 5z" fill="var(--system-selected)" stroke="var(--system-border-dark)" />
+          <path d="m9 10-2 3h2l-1 3 4-5h-2l1-2z" fill="var(--system-accent)" />
+        </>
+      )}
+    </svg>
+    {weather.line}
+  </span>
 </header>
 
 <style>
   .site-header {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 0.625rem;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.5rem 0.625rem;
+    border: 1px solid var(--system-border-dark);
+    background: var(--system-panel);
     color: var(--ink);
-  }
-
-  .mark {
-    display: block;
-    color: var(--ink);
+    box-shadow:
+      inset 1px 1px 0 var(--system-border-light),
+      inset -1px -1px 0 var(--system-border-deep);
   }
 
   .wordmark {
+    min-width: 0;
     font-size: var(--text-sm);
     font-weight: 500;
-    color: var(--ink);
+    color: var(--system-text);
     letter-spacing: 0.01em;
+  }
+
+  .weather {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+    color: var(--system-muted);
+    font-size: var(--text-xs);
+    text-align: right;
+  }
+
+  .weather-icon {
+    flex: 0 0 auto;
+    overflow: visible;
+  }
+
+  @media (max-width: 480px) {
+    .site-header {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .weather {
+      text-align: left;
+    }
   }
 </style>

@@ -29,6 +29,20 @@
   --marker-soft: #2b8593;
   --emphasis:    #b3431f;
 
+  /* Retro system chrome */
+  --system-bg:          #c4ccd9;
+  --system-panel:       #e5e8ee;
+  --system-title:       #2c4f78;
+  --system-title-text:  #ffffff;
+  --system-text:        #162231;
+  --system-muted:       #4e5b6a;
+  --system-accent:      #175da8;
+  --system-selected:    #dbe8f8;
+  --system-online:      #2d8a58;
+  --system-border-light:#ffffff;
+  --system-border-dark: #77808d;
+  --system-border-deep: #4e5865;
+
   /* Type scale (rem, root = 16px) */
   --text-xs:      0.75rem;
   --text-sm:      0.875rem;
@@ -65,12 +79,9 @@
    Plex Sans body, weights 400 + 500 only (no 700+ — the notebook
    metaphor doesn't shout). Off-white paper background, ink text.
    ============================================================ */
-html {
-  background: var(--paper);
-}
-
+html,
 body {
-  background: var(--paper);
+  background: var(--system-bg);
   color: var(--ink);
   font-family: var(--font-sans);
   font-size: var(--text-base);

@@ -1,53 +1,68 @@
 ---
 import RouteLayout from "../layouts/RouteLayout.astro";
-import { cards } from "../lib/cards";
-
-const card = cards.find((c) => c.slug === "bio")!;
 ---
 
 <RouteLayout
-  slug={card.slug}
-  callNumber={card.callNumber}
-  title={card.title}
-  description="who I am, briefly."
+  title="Bio"
+  description="Olga Nikulina's background as a senior full-stack engineer and team lead."
 >
-  <div class="bio">
-    <p>
-      I'm a team lead and senior full-stack engineer, ten-plus years deep,
-      with a path that started in QA, moved through product engineering,
-      and now sits somewhere in the middle of leadership and code. I still
-      write a lot of it.
-    </p>
+  <div class="bio-layout">
+    <div class="bio">
+      <p>
+        I'm a team lead and senior full-stack engineer, ten-plus years deep,
+        with a path that started in QA, moved through product engineering,
+        and now sits somewhere in the middle of leadership and code. I still
+        write a lot of it.
+      </p>
 
-    <p>
-      I lead two remote teams building a SaaS eCommerce platform — React,
-      TypeScript, Go, Node, a little Java, BigQuery, Mongo, Postgres. The
-      stack rotates; the job mostly doesn't. The job is taking a vague,
-      slightly-wrong request from a real human and turning it into something
-      shippable that actually solves the problem they meant, not the one
-      they typed.
-    </p>
+      <p>
+        I lead two remote teams building a SaaS eCommerce platform — React,
+        TypeScript, Go, Node, a little Java, BigQuery, Mongo, Postgres. The
+        stack rotates; the job mostly doesn't. The job is taking a vague,
+        slightly-wrong request from a real human and turning it into something
+        shippable that actually solves the problem they meant, not the one
+        they typed.
+      </p>
 
-    <p>
-      I like ambiguous problems, small teams, and the unglamorous half of
-      software: the parts where you read a ticket five times, sketch on
-      paper, and realize the original ask was a faster horse.
-    </p>
+      <p>
+        I like ambiguous problems, small teams, and the unglamorous half of
+        software: the parts where you read a ticket five times, sketch on
+        paper, and realize the original ask was a faster horse.
+      </p>
 
-    <p>
-      Based in Los Angeles. <a href="/resume">the working record</a> has the
-      facts and dates; <a href="/thoughts/faster-horse">the thoughts</a> have
-      the opinions.
-    </p>
+      <p>
+        Based in Los Angeles. <a href="/resume">The working record</a> has the
+        facts and dates; <a href="/thoughts/faster-horse">the thoughts</a> have
+        the opinions.
+      </p>
+    </div>
+
+    <figure class="portrait">
+      <img
+        src="/IMG_0080.jpeg"
+        alt="Olga Nikulina smiling outdoors"
+        loading="lazy"
+        decoding="async"
+      />
+      <figcaption class="font-mono">
+        One of my favorite places, Mildred E. Mathias Botanical Garden
+      </figcaption>
+    </figure>
   </div>
 </RouteLayout>
 
 <style>
+  .bio-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.8fr) minmax(16rem, 1fr);
+    gap: 2rem;
+    align-items: start;
+  }
+
   .bio {
-    max-width: 64ch;
     font-size: var(--text-base);
     line-height: 1.65;
-    color: var(--ink);
+    color: var(--system-text);
     display: flex;
     flex-direction: column;
     gap: calc(var(--grid-step) * 0.75);
@@ -56,12 +71,48 @@ const card = cards.find((c) => c.slug === "bio")!;
     margin: 0;
   }
   .bio a {
-    color: var(--ink);
+    color: var(--system-title);
     text-decoration: underline;
     text-decoration-thickness: 1px;
     text-underline-offset: 3px;
   }
   .bio a:hover {
-    color: var(--marker);
+    color: var(--system-accent);
+  }
+
+  .portrait {
+    margin: 0;
+    padding: 0.5rem;
+    border: 1px solid var(--system-border-dark);
+    background: var(--system-panel);
+    box-shadow:
+      inset 1px 1px 0 var(--system-border-light),
+      inset -1px -1px 0 var(--system-border-deep);
+  }
+
+  .portrait img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: center 25%;
+  }
+
+  .portrait figcaption {
+    margin-top: 0.5rem;
+    color: var(--system-muted);
+    font-size: var(--text-xs);
+    letter-spacing: 0.04em;
+  }
+
+  @media (max-width: 767px) {
+    .bio-layout {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .portrait {
+      order: -1;
+    }
   }
 </style>

@@ -7,13 +7,11 @@ const card = cards.find((c) => c.slug === "contact")!;
 ---
 
 <RouteLayout
-  slug={card.slug}
-  callNumber={card.callNumber}
   title={card.title}
-  description="say hello."
+  description="Say hello."
 >
   <p class="lede">
-    short notes, long emails, random questions — all welcome.
+    Short notes, long emails, random questions — all welcome.
   </p>
 
   <ContactForm client:load />
@@ -21,7 +19,6 @@ const card = cards.find((c) => c.slug === "contact")!;
 
 <style>
   .lede {
-    max-width: 56ch;
     color: var(--ink-soft);
     font-size: var(--text-base);
     line-height: 1.6;

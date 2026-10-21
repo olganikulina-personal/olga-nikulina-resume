@@ -1,6 +1,6 @@
 ---
-title: "a faster horse"
-subtitle: "on hearing the real ask under the asked ask"
+title: "A faster horse"
+subtitle: "On hearing the real ask under the asked ask"
 callNumber: "t-01"
 publishedAt: 2026-05-29
 draft: false

@@ -1,6 +1,6 @@
 ---
-title: "the dallas incident"
-subtitle: "a low-stakes bug, a high-stakes UAT, one bruce willis"
+title: "The Dallas incident"
+subtitle: "A low-stakes bug, a high-stakes UAT, one Bruce Willis"
 callNumber: "t-04"
 publishedAt: 2026-06-01
 draft: false
