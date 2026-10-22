@@ -1,5 +1,5 @@
 /**
- * Single source of truth for the home grid's seven cards.
+ * Single source of truth for the site's route and essay registry.
  *
  * Order in this array == DOM order on the page (also the mobile stack order).
  * `gridClass` controls desktop placement on the 12-col grid; on mobile (<768px)
@@ -71,6 +71,15 @@ export const cards: Card[] = [
     callNumber: "t-04",
     subtitle: "A low-stakes bug, a high-stakes UAT, one Bruce Willis",
     gridClass: "md:col-span-8 md:row-span-2 md:col-start-1 md:row-start-7",
+    isEssay: true,
+  },
+  {
+    slug: "evidence-based-ai-native-sdlc",
+    href: "/thoughts/evidence-based-ai-native-sdlc",
+    title: "An Evidence-Based Approach to the AI-Native SDLC",
+    callNumber: "t-05",
+    subtitle: "From faster implementation to more effective software delivery",
+    gridClass: "md:col-span-8 md:row-span-2 md:col-start-1 md:row-start-9",
     isEssay: true,
   },
   {
